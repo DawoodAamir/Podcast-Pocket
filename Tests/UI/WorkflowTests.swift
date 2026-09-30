@@ -2,7 +2,7 @@ import XCTest
 
 final class WorkflowTests: XCTestCase {
   override func setUpWithError() throws { continueAfterFailure = false }
-  override func tearDownWithError() throws {XCUIApplication().terminate()}
+  override func tearDownWithError() throws { XCUIApplication().terminate() }
 
   private func launch() -> XCUIApplication {
     let app = XCUIApplication()

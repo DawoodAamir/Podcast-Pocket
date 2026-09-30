@@ -1,0 +1,25 @@
+name: Podcast Pocket checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v7
+      - name: Core tests
+        run: |
+          swift test
+          swift test -c release
+      - name: Release build
+        run: xcodebuild -project 'Podcast Pocket.xcodeproj' -scheme 'Podcast Pocket' -configuration Release -sdk iphonesimulator -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+      - name: Native workflows
+        run: bash Scripts/test-ui.sh
+      - name: Test results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: workflow-results
+          path: build/*.xcresult
